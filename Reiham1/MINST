@@ -1,0 +1,57 @@
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, precision_score, recall_score
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    classification_report,
+    confusion_matrix
+)
+
+# Step 1: Initialize the classifier
+print("Step 1: Initialize the model")
+rf_model = RandomForestClassifier(random_state=42, n_estimators=100)
+print(f"  Model: {rf_model}")
+
+import pandas as pd
+
+# Load training data
+train = pd.read_csv(r"C:\Users\GM\Desktop\MINST\mnist_train.csv")
+
+# Load testing data
+test = pd.read_csv(r"C:\Users\GM\Desktop\MINST\mnist_test.csv")
+
+# Features and labels
+X_train = train.iloc[:, 1:].values
+y_train = train.iloc[:, 0].values
+
+X_test = test.iloc[:, 1:].values
+y_test = test.iloc[:, 0].values
+
+rf_model = RandomForestClassifier(random_state=42)
+rf_model.fit(X_train, y_train)
+
+# Predict on test set
+y_train_pred = rf_model.predict(X_train)
+y_test_pred = rf_model.predict(X_test)
+
+# Predict
+y_train_pred = rf_model.predict(X_train)
+y_test_pred = rf_model.predict(X_test)
+
+# Calculate metrics
+train_acc = accuracy_score(y_train, y_train_pred)
+test_acc = accuracy_score(y_test, y_test_pred)
+
+precision = precision_score(y_test, y_test_pred, average="weighted")
+recall = recall_score(y_test, y_test_pred, average="weighted")
+
+print("Random Forest Performance:")
+print(f"  Training Accuracy: {train_acc:.4f}")
+print(f"  Testing Accuracy:  {test_acc:.4f}")
+print(f"  Precision:         {precision:.4f}")
+print(f"  Recall:            {recall:.4f}")
+print("\nClassification Report:")
+print(classification_report(y_test, y_test_pred))
+print("\nConfusion Matrix:")
+print(confusion_matrix(y_test, y_test_pred))
